@@ -1,0 +1,34 @@
+{
+  "name": "nova-personal-ai",
+  "version": "0.1.0",
+  "description": "NOVA - a personal AI assistant for Windows 11 (Electron, Ollama, optional OpenAI)",
+  "main": "src/main/main.js",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "build": "electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "com.example.nova",
+    "productName": "NOVA",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "dependencies": {
+    "dotenv": "^18.0.7"
+  },
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3"
+  }
+}

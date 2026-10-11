@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOVA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo" aria-hidden="true">N</span><h1>NOVA</h1></div>
+    <div class="controls">
+      <span id="status" class="status" role="status"><span class="dot"></span><span id="statusText">Checking…</span></span>
+      <label class="sr-only" for="provider">AI mode</label>
+      <select id="provider">
+        <option value="offline">Offline only</option>
+        <option value="hybrid">Hybrid</option>
+        <option value="online">Online only (OpenAI)</option>
+        <option value="gemini">Online only (Gemini)</option>
+      </select>
+      <button id="speakToggle" class="icon" type="button" aria-pressed="true" title="Spoken responses on/off" aria-label="Toggle spoken responses">🔊</button>
+      <button id="stopSpeech" class="icon" type="button" title="Stop speaking" aria-label="Stop speaking">⏹</button>
+      <button id="settingsBtn" class="icon" type="button" title="Settings" aria-label="Open settings">⚙</button>
+    </div>
+  </header>
+
+  <main id="messages" class="messages" aria-live="polite"></main>
+  <div id="notice" class="notice" role="alert" hidden></div>
+
+  <form id="composer" class="composer">
+    <button id="micBtn" class="icon" type="button" aria-label="Start voice input" title="Voice input">🎤</button>
+    <input id="input" type="text" autocomplete="off" maxlength="4000" placeholder="Ask NOVA anything, or try “open Calculator”…" aria-label="Message">
+    <button id="sendBtn" class="primary" type="submit">Send</button>
+  </form>
+
+  <dialog id="settingsDialog" aria-labelledby="settingsTitle">
+    <form id="settingsForm" method="dialog">
+      <h2 id="settingsTitle">Settings</h2>
+      <label>Local model (Ollama) <input name="ollamaModel" required></label>
+      <label>Ollama URL (this computer only) <input name="ollamaBaseUrl" required></label>
+      <label>Online model (OpenAI) <input name="openaiModel" required></label>
+      <label>Online model (Gemini) <input name="geminiModel" required></label>
+      <label>Hybrid fallback provider <select name="fallbackProvider"><option value="openai">OpenAI</option><option value="gemini">Gemini</option></select></label>
+      <label class="check"><input type="checkbox" name="allowOnlineFallback"> In Hybrid mode, allow sending a message to the fallback provider when the local model is unavailable</label>
+      <label>Voice language <input name="language" placeholder="en-US" required></label>
+      <label>Folder opened by “open my folder” <input name="userFolder" required></label>
+      <p class="hint">Online modes (and hybrid fallback) send your message and recent chat context to OpenAI or Google Gemini. Usage may be billed or limited by the provider; see their terms for how your data is handled. API keys are read from your .env file and never shown here. Offline-only mode sends nothing online.</p>
+      <p id="settingsMsg" class="hint" role="status"></p>
+      <div class="row">
+        <button type="button" id="clearHistory">Clear chat history</button>
+        <span class="spacer"></span>
+        <button type="button" id="closeSettings">Close</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>
